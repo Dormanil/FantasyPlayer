@@ -1,17 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <ProjectGuid>{7C8F3B5E-12F3-43F5-9080-B58471ABB7A1}</ProjectGuid>
-    <TargetFramework>net472</TargetFramework>
+    <TargetFrameworks>net472;net5.0-windows</TargetFrameworks>
     <LangVersion>latest</LangVersion>
     <AssemblyTitle>FantasyPlayer.Dalamud</AssemblyTitle>
     <Product>FantasyPlayer.Dalamud</Product>
     <Copyright>Copyright ©  2020</Copyright>
     <OutputPath>bin\$(Configuration)\</OutputPath>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup> 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Deterministic>false</Deterministic>
+  </PropertyGroup> 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <DebugType>full</DebugType>
     <Deterministic>false</Deterministic>
   </PropertyGroup>
@@ -23,12 +28,20 @@
       *.xml
     </AllowedReferenceRelatedFileExtensions>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <DebugType>pdbonly</DebugType>
+    <AllowedReferenceRelatedFileExtensions>
+      
+      *.pdb;
+      *.xml
+    </AllowedReferenceRelatedFileExtensions>
+  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="DalamudPackager" Version="1.2.1" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="SpotifyAPI.Web" Version="6.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="SpotifyAPI.Web" Version="6.2.0" />
   </ItemGroup>
-  <ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net472'">
     <Reference Include="Dalamud">
       <HintPath>$(DALAMUD_ROOT)\Dalamud.dll</HintPath>
       <HintPath>..\libs\Dalamud.dll</HintPath>
@@ -45,6 +58,20 @@
       <HintPath>$(DALAMUD_ROOT)\ImGuiScene.dll</HintPath>
       <HintPath>..\libs\ImGuiScene.dll</HintPath>
       <HintPath>$(AppData)\XIVLauncher\addon\Hooks\dev\ImGuiScene.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net5.0-windows'">
+    <Reference Include="Dalamud">
+      <HintPath>$(AppData)\XIVLauncher\addon\Hooks\net5.0\Dalamud.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ImGui.NET">
+      <HintPath>$(AppData)\XIVLauncher\addon\Hooks\net5.0\ImGui.NET.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ImGuiScene">
+      <HintPath>$(AppData)\XIVLauncher\addon\Hooks\net5.0\ImGuiScene.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
